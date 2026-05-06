@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Glasses – Miu Miu</title>
+  <link rel="stylesheet" href="style(2).css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">✦ Miu Miu</div>
+    <ul class="menu">
+      <a href="Index(2).html" class="btn-nav">Home</a>
+      <a href="Cart(6).html" class="btn-nav btn-cart">🛒 <span class="cart-count" id="cartCount">0</span></a>
+    </ul>
+  </nav>
+
+  <div class="section-title">
+    <span class="section-tag">✦ Eyewear Collection</span>
+    <h2>My Glasses</h2>
+  </div>
+
+  <section class="products">
+    <div class="sub-nav">
+      <a href="My_Glasses(2).html" class="sub-btn active">🕶️ Glasses</a>
+      <a href="My_Bag(2).html" class="sub-btn">👜 Bags</a>
+      <a href="My_Heels(2).html" class="sub-btn">👠 Heels</a>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <div class="toast" id="toast">✦ Ditambahkan ke keranjang!</div>
+
+  <script>
+    const products = [
+      { name: 'Flower Pot I',    price: '$20', img: 'https://i.pinimg.com/1200x/ae/83/8f/ae838fd10d253b96e7fb610cce342e7e.jpg' },
+      { name: 'Flower Pot II',   price: '$20', img: 'https://i.pinimg.com/1200x/b1/87/6f/b1876f42ee6c6914beb9146619292806.jpg' },
+      { name: 'Flower Pot III',  price: '$20', img: 'https://i.pinimg.com/736x/99/05/c4/9905c4654d89c495076fdc3a4f08cf42.jpg' },
+      { name: 'Flower Pot IV',   price: '$20', img: 'https://i.pinimg.com/1200x/fc/ff/35/fcff35269dd7cc0288d95c9350d40b56.jpg' },
+      { name: 'Flower Pot V',    price: '$20', img: 'https://i.pinimg.com/1200x/81/38/d9/8138d92022791fc1e19f7e0d8156ec04.jpg' },
+      { name: 'Flower Pot VI',   price: '$20', img: 'https://i.pinimg.com/736x/54/62/59/546259c601cda9f984092494d0a45ba4.jpg' },
+      { name: 'Flower Pot VII',  price: '$20', img: 'https://i.pinimg.com/1200x/cc/df/2d/ccdf2d7ad72397c03f830e26f1c494df.jpg' },
+      { name: 'Flower Pot VIII', price: '$20', img: 'https://i.pinimg.com/736x/54/d0/82/54d082a4b727a03a5737e1bd266eaa59.jpg' },
+      { name: 'Flower Pot IX',   price: '$20', img: 'https://i.pinimg.com/1200x/ec/ee/5a/ecee5a37ff7d671148f5447f1553126c.jpg' },
+      { name: 'Flower Pot X',    price: '$20', img: 'https://i.pinimg.com/1200x/e1/1b/01/e11b01963803492c13c3b90f9cce4fba.jpg' },
+      { name: 'Flower Pot XI',   price: '$20', img: 'https://i.pinimg.com/1200x/f0/65/89/f06589ea98180339a02a58e945469a03.jpg' },
+      { name: 'Flower Pot XII',  price: '$20', img: 'https://i.pinimg.com/1200x/ca/9d/5b/ca9d5b85e74b414e6b523cba4351a956.jpg' },
+      { name: 'Flower Pot XIII', price: '$20', img: 'https://i.pinimg.com/1200x/17/ee/ef/17eeef29a126f971cb4aca938830d5c4.jpg' },
+      { name: 'Flower Pot XIV',  price: '$20', img: 'https://i.pinimg.com/736x/46/20/c2/4620c23407035621588c882c59bfe6c9.jpg' },
+      { name: 'Flower Pot XV',   price: '$20', img: 'https://i.pinimg.com/736x/cb/d2/f6/cbd2f6e63e018c4da6a10d5fbf5a6e9f.jpg' },
+      { name: 'Flower Pot XVI',  price: '$20', img: 'https://i.pinimg.com/1200x/79/85/fd/7985fde3e5bda78f85be7b0a208964be.jpg' },
+    ];
+
+    function getCart() { return JSON.parse(localStorage.getItem('miumiu_cart') || '[]'); }
+    function saveCart(c) { localStorage.setItem('miumiu_cart', JSON.stringify(c)); }
+
+    function updateCount() {
+      const n = getCart().reduce((s, i) => s + i.qty, 0);
+      document.getElementById('cartCount').textContent = n;
+    }
+
+    function addToCart(name, price, img) {
+      const cart = getCart();
+      const found = cart.find(i => i.name === name);
+      if (found) found.qty++;
+      else cart.push({ name, cat: 'Glasses', price, img, qty: 1 });
+      saveCart(cart);
+      updateCount();
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    const grid = document.getElementById('productGrid');
+    products.forEach(p => {
+      grid.innerHTML += `
+        <div class="card">
+          <span class="badge">New</span>
+          <div class="card-img-wrap"><img src="${p.img}" alt="${p.name}"></div>
+          <div class="card-body">
+            <h3>${p.name}</h3>
+            <p class="card-cat">Glasses</p>
+            <p class="price">${p.price}</p>
+            <button class="btn-add" onclick="addToCart('${p.name}','${p.price}','${p.img}')">+ Add to Cart</button>
+          </div>
+        </div>`;
+    });
+
+    updateCount();
+  </script>
+</body>
+</html>

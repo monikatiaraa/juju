@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review – Miu Miu</title>
+  <link rel="stylesheet" href="style(2).css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">✦ Miu Miu</div>
+    <ul class="menu">
+      <a href="Index.html" class="btn-nav">Home</a>
+      <a href="Review.html" class="btn-nav">Review</a>
+    </ul>
+  </nav>
+
+  <section class="review-section">
+    <span class="section-tag">✦ Customer Stories</span>
+    <h1>Ulasan Pelanggan</h1>
+
+    <div class="review-list" id="reviewList"></div>
+
+    <div class="review-form">
+      <h2>Tulis Ulasanmu ✍️</h2>
+      <input type="text" id="nameInput" placeholder="Nama kamu">
+      <div class="stars" id="stars">
+        <span data-v="1">★</span><span data-v="2">★</span>
+        <span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+      </div>
+      <textarea id="commentInput" placeholder="Ceritakan pengalamanmu..."></textarea>
+      <button onclick="submitReview()">Kirim Ulasan ✦</button>
+    </div>
+  </section>
+
+  <script>
+    let selectedRating = 0;
+
+    document.querySelectorAll('#stars span').forEach(s => {
+      s.addEventListener('click', () => {
+        selectedRating = +s.dataset.v;
+        document.querySelectorAll('#stars span').forEach(x => {
+          x.classList.toggle('active', +x.dataset.v <= selectedRating);
+        });
+      });
+    });
+
+    function getReviews() { return JSON.parse(localStorage.getItem('miumiu_reviews') || '[]'); }
+
+    function displayReviews() {
+      const list = document.getElementById('reviewList');
+      const reviews = getReviews();
+      if (!reviews.length) {
+        list.innerHTML = '<p style="text-align:center;color:#c4a0b8;font-size:15px;grid-column:1/-1;">Belum ada ulasan. Jadilah yang pertama! 🌸</p>';
+        return;
+      }
+      list.innerHTML = reviews.map((r, i) => `
+        <div class="review-card">
+          <div class="review-header">
+            <div>
+              <h3>${r.name}</h3>
+              <small>${r.date}</small>
+            </div>
+            <button class="delete-btn" onclick="deleteReview(${i})">✕</button>
+          </div>
+          <div class="star-display">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+          <p>${r.comment}</p>
+        </div>`).join('');
+    }
+
+    function deleteReview(i) {
+      const reviews = getReviews();
+      reviews.splice(i, 1);
+      localStorage.setItem('miumiu_reviews', JSON.stringify(reviews));
+      displayReviews();
+    }
+
+    function submitReview() {
+      const name = document.getElementById('nameInput').value.trim();
+      const comment = document.getElementById('commentInput').value.trim();
+      if (!name || !comment || !selectedRating) { alert('Lengkapi nama, bintang & ulasan dulu ya! 🌸'); return; }
+      const reviews = getReviews();
+      reviews.unshift({ name, rating: selectedRating, comment, date: new Date().toLocaleDateString('id-ID') });
+      localStorage.setItem('miumiu_reviews', JSON.stringify(reviews));
+      document.getElementById('nameInput').value = '';
+      document.getElementById('commentInput').value = '';
+      selectedRating = 0;
+      document.querySelectorAll('#stars span').forEach(s => s.classList.remove('active'));
+      displayReviews();
+    }
+
+    function updateCount() {
+      const cart = JSON.parse(localStorage.getItem('miumiu_cart') || '[]');
+      document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+    }
+
+    displayReviews();
+    updateCount();
+  </script>
+</body>
+</html>

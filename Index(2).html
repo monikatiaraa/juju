@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Miu Miu</title>
+  <link rel="stylesheet" href="style(2).css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="brand">✦ Miu Miu</div>
+      <ul class="menu">
+        <a href="Index(2).html" class="btn-nav">Home</a>
+        <a href="My_Glasses(2).html" class="btn-nav">Products</a>
+        <a href="About.html" class="btn-nav">About</a>
+        <a href="Review.html" class="btn-nav">Review</a>
+        <a href="Cart(6).html" class="btn-nav btn-cart">🛒 Keranjang <span class="cart-count" id="cartCount">0</span></a>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-left">
+      <span class="hero-tag">✦ New Collection 2025</span>
+      <p class="hero-sub">Unapologetically Miu Miu</p>
+      <h1>Rich <br><em>Collection</em> <br>Of Miu Miu</h1>
+      <p class="hero-desc">
+        Manis, tajam, dan sepenuhnya autentik. Miu Miu adalah bagi mereka yang mendobrak aturan mode. 
+        Dari siluet ikonik hingga perpaduan tekstur yang kontras, kami menghadirkan gaya yang memadukan estetika preppy dengan energi urban underground.
+      </p>
+      <a href="My_Glasses(2).html" class="btn-primary">Explore Collection →</a>
+    </div>
+
+    <div class="about-content">
+      <div class="about-image">
+        <img src="Untuk Di Depan.jpeg" alt="Miu Miu" onerror="this.style.background='linear-gradient(135deg,#f7d6e8,#d4608a)';this.style.height='400px';this.removeAttribute('src')">
+        <div class="image-accent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured -->
+  <div class="section-title">
+    <span class="section-tag">✦ Pilihan Terbaik</span>
+    <h2>Featured Products</h2>
+  </div>
+
+  <section class="products">
+    <div class="sub-nav">
+      <a href="My_Glasses(2).html" class="sub-btn">🕶️ Glasses</a>
+      <a href="My_Bag(2).html" class="sub-btn">👜 Bags</a>
+      <a href="My_Heels(2).html" class="sub-btn">👠 Heels</a>
+    </div>
+
+    <div class="product-grid">
+      <div class="card">
+        <span class="badge">New</span>
+        <div class="card-img-wrap">
+          <img src="https://i.pinimg.com/1200x/ae/83/8f/ae838fd10d253b96e7fb610cce342e7e.jpg" alt="Glasses 1">
+        </div>
+        <div class="card-body">
+          <h3>Crystal Frame</h3>
+          <p class="card-cat">Glasses</p>
+          <p class="price">$20</p>
+          <button class="btn-add" onclick="addToCart('Crystal Frame','Glasses','$20','https://i.pinimg.com/1200x/ae/83/8f/ae838fd10d253b96e7fb610cce342e7e.jpg')">+ Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">New</span>
+        <div class="card-img-wrap">
+          <img src="https://i.pinimg.com/736x/62/54/31/625431bc9d754ab22c01ad19644594b9.jpg" alt="Bag 1">
+        </div>
+        <div class="card-body">
+          <h3>Satin Mini Bag</h3>
+          <p class="card-cat">Bags</p>
+          <p class="price">$20</p>
+          <button class="btn-add" onclick="addToCart('Satin Mini Bag','Bags','$20','https://i.pinimg.com/736x/62/54/31/625431bc9d754ab22c01ad19644594b9.jpg')">+ Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">New</span>
+        <div class="card-img-wrap">
+          <img src="https://i.pinimg.com/1200x/04/bd/64/04bd64ac68bd50b29b23c933727d0b91.jpg" alt="Heels 1">
+        </div>
+        <div class="card-body">
+          <h3>Kitten Heels</h3>
+          <p class="card-cat">Heels</p>
+          <p class="price">$20</p>
+          <button class="btn-add" onclick="addToCart('Kitten Heels','Heels','$20','https://i.pinimg.com/1200x/04/bd/64/04bd64ac68bd50b29b23c933727d0b91.jpg')">+ Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">Hot</span>
+        <div class="card-img-wrap">
+          <img src="https://i.pinimg.com/736x/4b/6f/21/4b6f21b9b47a46db7bd8c05f2c8bb258.jpg" alt="Bag 2">
+        </div>
+        <div class="card-body">
+          <h3>Velvet Tote</h3>
+          <p class="card-cat">Bags</p>
+          <p class="price">$20</p>
+          <button class="btn-add" onclick="addToCart('Velvet Tote','Bags','$20','https://i.pinimg.com/736x/4b/6f/21/4b6f21b9b47a46db7bd8c05f2c8bb258.jpg')">+ Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast">✦ Ditambahkan ke keranjang!</div>
+
+  <script>
+    function getCart() { return JSON.parse(localStorage.getItem('miumiu_cart') || '[]'); }
+    function saveCart(c) { localStorage.setItem('miumiu_cart', JSON.stringify(c)); }
+
+    function updateCount() {
+      const n = getCart().reduce((s, i) => s + i.qty, 0);
+      document.getElementById('cartCount').textContent = n;
+    }
+
+    function addToCart(name, cat, price, img) {
+      const cart = getCart();
+      const found = cart.find(i => i.name === name);
+      if (found) found.qty++;
+      else cart.push({ name, cat, price, img, qty: 1 });
+      saveCart(cart);
+      updateCount();
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    updateCount();
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Heels – Miu Miu</title>
+  <link rel="stylesheet" href="style(2).css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">✦ Miu Miu</div>
+    <ul class="menu">
+      <a href="Index(2).html" class="btn-nav">Home</a>
+      <a href="Cart(1).html" class="btn-nav btn-cart">🛒 <span class="cart-count" id="cartCount">0</span></a>
+    </ul>
+  </nav>
+
+  <div class="section-title">
+    <span class="section-tag">✦ Footwear Collection</span>
+    <h2>My Heels</h2>
+  </div>
+
+  <section class="products">
+    <div class="sub-nav">
+      <a href="My_Glasses(2).html" class="sub-btn">🕶️ Glasses</a>
+      <a href="My_Bag(2).html" class="sub-btn">👜 Bags</a>
+      <a href="My_Heels(2).html" class="sub-btn active">👠 Heels</a>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <div class="toast" id="toast">✦ Ditambahkan ke keranjang!</div>
+
+  <script>
+    const products = [
+      { name: 'Kitten Heels I',    price: '$20', img: 'https://i.pinimg.com/1200x/04/bd/64/04bd64ac68bd50b29b23c933727d0b91.jpg' },
+      { name: 'Bow Mule',          price: '$20', img: 'https://i.pinimg.com/1200x/09/80/7a/09807a2f7086512ad703e93bd8aef2af.jpg' },
+      { name: 'Satin Pump',        price: '$20', img: 'https://i.pinimg.com/736x/dd/57/f5/dd57f510869bc3232f06c6765fab74a0.jpg' },
+      { name: 'Pearl Ankle Strap', price: '$20', img: 'https://i.pinimg.com/1200x/ee/29/06/ee2906cb16f835979b02a273bf281135.jpg' },
+      { name: 'Platform Heel',     price: '$20', img: 'https://i.pinimg.com/1200x/81/38/d9/8138d92022791fc1e19f7e0d8156ec04.jpg' },
+      { name: 'Crystal Sandal',    price: '$20', img: 'https://i.pinimg.com/736x/54/62/59/546259c601cda9f984092494d0a45ba4.jpg' },
+      { name: 'Lace Up Heel',      price: '$20', img: 'https://i.pinimg.com/1200x/cc/df/2d/ccdf2d7ad72397c03f830e26f1c494df.jpg' },
+      { name: 'Ruffle Mule',       price: '$20', img: 'https://i.pinimg.com/736x/54/d0/82/54d082a4b727a03a5737e1bd266eaa59.jpg' },
+      { name: 'Floral Pump',       price: '$20', img: 'https://i.pinimg.com/1200x/ec/ee/5a/ecee5a37ff7d671148f5447f1553126c.jpg' },
+      { name: 'Block Heel',        price: '$20', img: 'https://i.pinimg.com/1200x/e1/1b/01/e11b01963803492c13c3b90f9cce4fba.jpg' },
+      { name: 'Velvet Stiletto',   price: '$20', img: 'https://i.pinimg.com/1200x/f0/65/89/f06589ea98180339a02a58e945469a03.jpg' },
+      { name: 'Ribbon Heel',       price: '$20', img: 'https://i.pinimg.com/1200x/ca/9d/5b/ca9d5b85e74b414e6b523cba4351a956.jpg' },
+      { name: 'Pointed Toe Pump',  price: '$20', img: 'https://i.pinimg.com/1200x/17/ee/ef/17eeef29a126f971cb4aca938830d5c4.jpg' },
+      { name: 'Suede Heel',        price: '$20', img: 'https://i.pinimg.com/736x/46/20/c2/4620c23407035621588c882c59bfe6c9.jpg' },
+      { name: 'Embellished Mule',  price: '$20', img: 'https://i.pinimg.com/736x/cb/d2/f6/cbd2f6e63e018c4da6a10d5fbf5a6e9f.jpg' },
+      { name: 'Strappy Sandal',    price: '$20', img: 'https://i.pinimg.com/1200x/79/85/fd/7985fde3e5bda78f85be7b0a208964be.jpg' },
+    ];
+
+    function getCart() { return JSON.parse(localStorage.getItem('miumiu_cart') || '[]'); }
+    function saveCart(c) { localStorage.setItem('miumiu_cart', JSON.stringify(c)); }
+
+    function updateCount() {
+      const n = getCart().reduce((s, i) => s + i.qty, 0);
+      document.getElementById('cartCount').textContent = n;
+    }
+
+    function addToCart(name, price, img) {
+      const cart = getCart();
+      const found = cart.find(i => i.name === name);
+      if (found) found.qty++;
+      else cart.push({ name, cat: 'Heels', price, img, qty: 1 });
+      saveCart(cart);
+      updateCount();
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    const grid = document.getElementById('productGrid');
+    products.forEach(p => {
+      grid.innerHTML += `
+        <div class="card">
+          <span class="badge">New</span>
+          <div class="card-img-wrap"><img src="${p.img}" alt="${p.name}"></div>
+          <div class="card-body">
+            <h3>${p.name}</h3>
+            <p class="card-cat">Heels</p>
+            <p class="price">${p.price}</p>
+            <button class="btn-add" onclick="addToCart('${p.name}','${p.price}','${p.img}')">+ Add to Cart</button>
+          </div>
+        </div>`;
+    });
+
+    updateCount();
+  </script>
+</body>
+</html>
